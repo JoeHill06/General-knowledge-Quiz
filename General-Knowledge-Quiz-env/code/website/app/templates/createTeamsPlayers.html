@@ -11,18 +11,20 @@
   </div>
 
   <h2>Add your {{mode}}s!</h2>
-
-  <!-- Team Form -->
+  <h3> {{ message }}</h3>
+    <!-- Team Form -->
   <form id="team-form" method="POST" action="/add-team">
     <!-- Render the current list of teams -->
     <div id="team-container">
-        {% for team in teams %}
-        <div class="team-row">
-          <label for="team-{{ team[0] }}">{{mode}} {{ team[0] }}:</label>
-          <input type="text" name="teams" value="{{ team[1] }}" readonly>
-        </div>
-        {% endfor %}
+      {% for team in teams %}
+      <div class="team-row">
+        <label for="team-{{ team[0] }}">{{mode}} {{ team[0] }}:</label>
+        <input type="text" value="{{ team[1] }}" readonly>
+        <!-- Include each team's data as a hidden input for submission -->
+        <input type="hidden" name="teams" value="{{ team[0] }}:{{ team[1] }}">
       </div>
+      {% endfor %}
+    </div>
 
     <!-- Input for adding a new team -->
     <div class="team-row">
@@ -32,6 +34,15 @@
 
     <!-- Submit Button -->
     <button type="submit">Add {{mode}}</button>
+  </form>
+
+  <form id="category-form" method="POST" action="/start-game">
+    {% for category in categorys %}
+    <div class="category-row">
+      <!-- Button submits the category value -->
+      <button type="submit" name="category" value="{{ category }}" class="category-button">{{ category }}</button>
+    </div>
+    {% endfor %}
   </form>
 </div>
 {% endblock %}
