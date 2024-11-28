@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Choose Play Mode{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2>Select Your Play Mode</h2>
+
+  <div class="box-container">
+    <div class="box" id="team-play">
+      <a href="/teamsOrPlayer/0">
+        <h3>Play as Team</h3>
+        <p>Collaborate and play together!</p>
+      </a>
+    </div>
+
+    <div class="box" id="individual-play">
+      <a href="/teamsOrPlayer/1">
+        <h3>Individual Players</h3>
+        <p>Compete as solo players!</p>
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

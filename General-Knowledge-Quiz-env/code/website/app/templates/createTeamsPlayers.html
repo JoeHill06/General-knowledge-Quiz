@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Add your {{mode}}s!{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="return" id="backApage">
+    <a href="{{ url_for('teams') }}">
+      <h3>Change your mind?</h3>
+    </a>
+  </div>
+
+  <h2>Add your {{mode}}s!</h2>
+
+  <!-- Team Form -->
+  <form id="team-form" method="POST" action="/add-team">
+    <!-- Render the current list of teams -->
+    <div id="team-container">
+        {% for team in teams %}
+        <div class="team-row">
+          <label for="team-{{ team[0] }}">{{mode}} {{ team[0] }}:</label>
+          <input type="text" name="teams" value="{{ team[1] }}" readonly>
+        </div>
+        {% endfor %}
+      </div>
+
+    <!-- Input for adding a new team -->
+    <div class="team-row">
+      <label for="new_team_name">New {{mode}} Name:</label>
+      <input type="text" name="new_team_name" id="new_team_name" placeholder="Enter New {{mode}} Name">
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit">Add {{mode}}</button>
+  </form>
+</div>
+{% endblock %}
