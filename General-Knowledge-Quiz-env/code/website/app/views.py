@@ -1,6 +1,10 @@
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, redirect
 from app import app, questions
 
+global questionSet
+questionSet = []
+
+global current_game
 
 # Route for selecting team or player mode
 @app.route('/')
@@ -42,16 +46,34 @@ def add_team():
     # Re-render the page with the updated list of teams
     return render_template("createTeamsPlayers.html", mode=mode, teams=teams, categorys=questions.get_categorys())
 
-@app.route("/start-game", methods=['POST'])
+@app.route("/start-game", methods=["POST"])
 def start_game():
-    # Retrieve teams and category from the session/form
+    global questionSet, current_game
+
     teams = session.get('teams', [])
     category = request.form.get("category")
 
-    # Initialize the game
-    current_game = questions.Game(teams, category)  # Assuming 'game' has a 'Game' class
-    print(current_game.teams, current_game.category, current_game.url)
+    if not teams or not category:
+        return "Teams or category not provided. Please set up the game correctly.", 400
+
+    current_game = questions.Game(teams, category)
     questionSet = current_game.get_questions()
-    print(questionSet)
-    # Redirect or render a game page
-    return render_template("gamePage.html", game=current_game)
+
+    # Redirect to /gamePage.html (handled via GET)
+    return redirect("/gamePage.html")
+
+
+@app.route("/gamePage.html", methods=["GET", "POST"])
+def deliver_questions():
+    print(f"Request method: {request.method}")  # Debug: Check method
+    global questionSet, current_game
+
+    if request.method == "GET":
+        if not questionSet:
+            return "No questions available. Please start a game first.", 400
+        question = questionSet[0]
+        return render_template("gamePage.html", game=current_game, question=question)
+
+    if request.method == "POST":
+        question = questionSet[0]
+        return render_template("gamePage.html", game=current_game, question=question)
