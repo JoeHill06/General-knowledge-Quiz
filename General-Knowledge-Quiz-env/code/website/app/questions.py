@@ -65,10 +65,30 @@ class Game:
         return questionSet
 
 
+unwanted_substrings = [
+    '&#039;',
+    '&quot;',
+    '&amp;',
+    '&lt;',
+    '&gt;',
+    '&ouml;',
+    '&aring;',
+    '&auml;',
+    '&quot;'
+]
+
+def clean_text(text, substrings_to_remove):
+    """Removes all substrings in substrings_to_remove from the text."""
+    for substring in substrings_to_remove:
+        text = text.replace(substring, '')
+    return text
 
 def question_answer_mixer(question):
-    # Example question format:
-    # ['multiple', 'medium', 'General Knowledge', 'What is the star sign of someone born on Valentines day?', 'Aquarius', ['Pisces', 'Capricorn', 'Scorpio']]
+    # Sanitize the question and answers
+    question[3] = clean_text(question[3], unwanted_substrings)
+    question[4] = clean_text(question[4], unwanted_substrings)
+    question[5] = [clean_text(ans, unwanted_substrings) for ans in question[5]]
+
     answers = []
     # Add the correct answer
     answers.append(question[4])
@@ -79,7 +99,6 @@ def question_answer_mixer(question):
     random.shuffle(answers)
     
     return answers
-
 
 #response = requests.get(url)
 #data = response.json()

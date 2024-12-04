@@ -1,180 +1,161 @@
-/* General Styling */
+/* styles.css */
+
 body {
-  font-family: 'Comic Sans MS', Arial, sans-serif; /* Playful font */
-  background-color: #ffe680; /* Vibrant yellow background */
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to bottom, #f0f8ff, #e6f7ff);
+  color: #333;
   margin: 0;
   padding: 0;
-  color: #333; /* Neutral text color */
-}
-
-/* Ensure the body and html take up the full viewport height */
-html, body {
-  height: 100%;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Footer stays at the bottom */
-footer {
-  background-color: #ff5c5c; /* Match the previous footer color */
-  color: white;
-  padding: 10px 0;
-  text-align: center;
-  box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.1);
 }
 
 header {
-  background-color: #ff5c5c; /* Bright red background */
-  color: #fff; /* White text */
-  text-align: center;
-  padding: 20px 0;
-  font-size: 2.5em;
-  text-shadow: 3px 3px #333; /* Shadow for a fun effect */
-}
-
-h2 {
-  color: #ff5c5c; /* Matches the red theme */
-  text-align: center;
-  font-size: 2em;
-  margin-bottom: 20px;
-  text-shadow: 2px 2px #fff;
-}
-
-/* Box Container */
-.box-container {
-  display: flex;
-  justify-content: space-around;
-  gap: 20px;
-  margin-top: 30px;
-}
-
-/* Individual Boxes */
-.box {
-  width: 45%;
-  background-color: #fff;
+  background-color: #0056b3;
+  color: #fff;
   padding: 20px;
-  border-radius: 15px;
-  border: 3px solid #ffae42; /* Orange border */
-  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
   text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-bottom: 5px solid #003d80;
 }
 
-.box:hover {
-  transform: scale(1.05);
-  box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.3);
+header h1 {
+  margin: 0;
+  font-size: 2rem;
 }
 
-/* Links Inside Boxes */
-.box a {
-  text-decoration: none;
-  color: inherit; /* Match text color with box style */
-}
-
-.box h3 {
-  font-size: 1.8em;
-  margin-bottom: 10px;
-  color: #4caf50; /* Green text */
-  text-shadow: 2px 2px #ffae42; /* Orange shadow */
-}
-
-.box p {
-  font-size: 1.2em;
-  color: #555;
-}
-
-/* Container Styling */
 .container {
-  position: relative; /* Ensure the return button is positioned relative to this container */
-  padding: 30px; /* Add extra padding to accommodate the return button */
-  background-color: transparent; /* Match the background */
-  border-radius: 0; /* Remove rounding if unnecessary */
-  box-shadow: none; /* Remove the shadow if you don't want it */
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Return Button Styling */
-.return {
-  position: absolute; /* Position relative to the container */
-  top: 10px; /* Place at the top inside the container */
-  left: 10px; /* Align to the left inside the container */
-  background-color: #ff5c5c; /* Bright red */
-  padding: 10px 15px;
-  border-radius: 10px;
-  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s, box-shadow 0.2s;
+footer {
+  text-align: center;
+  padding: 10px;
+  background-color: #003d80;
+  color: #fff;
+  font-size: 0.9rem;
 }
 
 .return a {
   text-decoration: none;
-  color: white;
-  font-size: 1em;
+  color: #0056b3;
   font-weight: bold;
-  text-align: center;
+  margin-bottom: 10px;
+  display: inline-block;
 }
 
-.return:hover {
-  transform: scale(1.05); /* Slightly enlarge on hover */
-  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3); /* Add a deeper shadow on hover */
-  background-color: #d9534f; /* Slightly darker red on hover */
-}
-
-
-/* Container for Teams */
-#team-container {
-  margin: 20px 0;
-}
-
-/* Team Row Styling */
-.team-row {
+h2 {
+  color: #003d80;
+  font-size: 1.5rem;
   margin-bottom: 15px;
 }
 
-.team-row label {
-  display: block;
+h3 {
+  color: #0056b3;
+  margin-bottom: 10px;
+}
+
+label {
   font-weight: bold;
+  display: block;
   margin-bottom: 5px;
 }
 
-.team-row input {
+input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+button:hover {
+  background-color: #003d80;
+}
+
+.category-button {
   width: 100%;
   padding: 10px;
-  border-radius: 5px;
-  border: 2px solid #ffae42; /* Orange border */
-  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
-}
-
-#add-team-button {
-  background-color: #4caf50; /* Green */
-  color: #fff;
-  padding: 10px 20px;
-  margin-right: 10px;
-  border: none;
+  margin: 10px 0;
+  font-size: 1rem;
+  border: 1px solid #0056b3;
+  background-color: #e6f7ff;
+  color: #0056b3;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 1em;
 }
 
-#add-team-button:hover {
-  background-color: #45a049; /* Darker green on hover */
+.category-button:hover {
+  background-color: #0056b3;
+  color: white;
 }
 
-/* Answer Buttons */
-.answer-button {
-  background-color: #ffae42; /* Orange */
-  color: #fff;
-  font-size: 1.2em;
-  padding: 15px 20px;
-  border: none;
+.box-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.box {
+  background: #e6f7ff;
+  padding: 20px;
   border-radius: 10px;
-  margin: 10px;
+  text-align: center;
+  width: 45%;
+  transition: transform 0.2s, background-color 0.2s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.box:hover {
+  transform: scale(1.05);
+  background: #cce7ff;
+}
+
+.box a {
+  text-decoration: none;
+  color: #0056b3;
+}
+
+.box h3 {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.box p {
+  font-size: 0.9rem;
+}
+
+.answer-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
   cursor: pointer;
-  transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
-  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s;
 }
 
 .answer-button:hover {
-  background-color: #ff9200; /* Slightly darker orange on hover */
-  transform: scale(1.05);
-  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3); /* Deeper shadow on hover */
+  background-color: #003d80;
+}
+
+.team-row {
+  margin-bottom: 15px;
 }

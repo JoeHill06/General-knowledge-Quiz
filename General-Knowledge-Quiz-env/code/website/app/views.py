@@ -65,11 +65,14 @@ def start_game():
     return redirect("/gamePage.html")
 
 
-
 @app.route("/gamePage.html/<answer>")
 @app.route("/gamePage.html", methods=["GET", "POST"])
 def deliver_questions(answer=None):
     global questionSet, current_game
+
+    # Check if current_game is defined
+    if 'current_game' not in globals() or current_game is None:
+        return redirect("/")  # Redirect to the homepage or an appropriate error page
 
     if not questionSet:
         return render_template("gamePage.html", game=current_game, question=None, message="Game Over! No more questions.")
