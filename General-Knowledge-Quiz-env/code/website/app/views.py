@@ -59,21 +59,39 @@ def start_game():
     current_game = questions.Game(teams, category)
     questionSet = current_game.get_questions()
 
-    # Redirect to /gamePage.html (handled via GET)
+    # Debugging
+    print("Question Set in start_game:", questionSet)
+
     return redirect("/gamePage.html")
 
-
+@app.route("/gamePage.html/<answer>")
 @app.route("/gamePage.html", methods=["GET", "POST"])
-def deliver_questions():
-    print(f"Request method: {request.method}")  # Debug: Check method
+def deliver_questions(answer=None):
     global questionSet, current_game
 
-    if request.method == "GET":
-        if not questionSet:
-            return "No questions available. Please start a game first.", 400
-        question = questionSet[0]
-        return render_template("gamePage.html", game=current_game, question=question)
+    if not questionSet:
+        return "No questions available. Please start a game first.", 400
 
+    # Handle GET requests
+    if request.method == "GET":
+        question = questionSet[0]
+        postableQ = [question[3], questions.question_answer_mixer(question)]
+        return render_template("gamePage.html", game=current_game, question=postableQ)
+
+    # Handle POST requests for answers
     if request.method == "POST":
         question = questionSet[0]
-        return render_template("gamePage.html", game=current_game, question=question)
+        postableQ = [question[3], questions.question_answer_mixer(question)]
+        questionSet = questionSet[2:]
+        answer = request.form.get("answer")  # Get the answer from the form
+        print("Answer Received:", answer)
+
+        if answer == question[4]:
+            message = "Answer was correct!"
+            print("Answer is correct!")
+        else:
+            message = "The answer was incorrect!"
+            print("Answer is incorrect.")
+        
+        
+        return render_template("gamePage.html", game=current_game, question=postableQ)

@@ -1,5 +1,6 @@
 import requests
 import pandas as pd
+import random
 
 categories = {
     "General Knowledge": 9,
@@ -65,6 +66,19 @@ class Game:
 
 
 
+def question_answer_mixer(question):
+    # Example question format:
+    # ['multiple', 'medium', 'General Knowledge', 'What is the star sign of someone born on Valentines day?', 'Aquarius', ['Pisces', 'Capricorn', 'Scorpio']]
+    answers = []
+    # Add the correct answer
+    answers.append(question[4])
+    # Add all incorrect answers
+    answers.extend(question[5])  # Use extend to add items from question[5] directly
+    
+    # Shuffle the answers
+    random.shuffle(answers)
+    
+    return answers
 
 
 #response = requests.get(url)

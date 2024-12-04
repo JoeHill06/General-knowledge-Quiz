@@ -4,6 +4,22 @@
 
 {% block content %}
 <div class="container">
-  <h1>Hi</h1>
+  <div class="return">
+    <a href="/">&#8592; Return to Home</a>
+  </div>
+  
+  <header>
+    Question Time!
+  </header>
+
+  <h2>{{ question[0] }}</h2> <!-- Question Title -->
+
+  <div class="box-container">
+    <form action="{{ url_for('deliver_questions') }}" method="POST">
+      {% for answer in question[1] %}
+        <button class="answer-button" type="submit" name="answer" value="{{ answer }}">{{ answer }}</button>
+      {% endfor %}
+    </form>
+  </div>
 </div>
 {% endblock %}
