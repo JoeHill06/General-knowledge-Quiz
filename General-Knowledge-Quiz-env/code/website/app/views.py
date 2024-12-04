@@ -64,13 +64,15 @@ def start_game():
 
     return redirect("/gamePage.html")
 
+
+
 @app.route("/gamePage.html/<answer>")
 @app.route("/gamePage.html", methods=["GET", "POST"])
 def deliver_questions(answer=None):
     global questionSet, current_game
 
     if not questionSet:
-        return "No questions available. Please start a game first.", 400
+        return render_template("gamePage.html", game=current_game, question=None, message="Game Over! No more questions.")
 
     # Handle GET requests
     if request.method == "GET":
@@ -80,18 +82,38 @@ def deliver_questions(answer=None):
 
     # Handle POST requests for answers
     if request.method == "POST":
-        question = questionSet[0]
-        postableQ = [question[3], questions.question_answer_mixer(question)]
-        questionSet = questionSet[2:]
+        print("POST Data:", request.form)  # Debugging
         answer = request.form.get("answer")  # Get the answer from the form
         print("Answer Received:", answer)
 
+        if not answer:
+            return "No answer submitted. Please try again.", 400
+
+        question = questionSet[0]
+        postableQ = [question[3], questions.question_answer_mixer(question)]
+
+        # Validate the answer
         if answer == question[4]:
             message = "Answer was correct!"
             print("Answer is correct!")
         else:
             message = "The answer was incorrect!"
-            print("Answer is incorrect.")
-        
-        
-        return render_template("gamePage.html", game=current_game, question=postableQ)
+            print("Answer is incorrect!")
+
+        # Move to the next question
+        questionSet = questionSet[1:]  # Remove the current question
+
+        # Check if there are more questions
+        if not questionSet:
+            return render_template("gamePage.html", game=current_game, question=None, message=message + " Game Over!")
+
+        # Get the next question
+        next_question = questionSet[0]
+        next_postableQ = [next_question[3], questions.question_answer_mixer(next_question)]
+
+        return render_template(
+            "gamePage.html",
+            game=current_game,
+            message=message,
+            question=next_postableQ
+        )
