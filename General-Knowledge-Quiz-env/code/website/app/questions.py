@@ -79,32 +79,43 @@ unwanted_substrings = [
     '&auml;'
 ]
 
-def clean_text(text, substrings_to_remove):
+def clean_text(text):
     """
     Removes all substrings in substrings_to_remove from the text.
     """
+    unwanted_substrings = [
+    '&#039;',
+    '&quot;',
+    '&amp;',
+    '&lt;',
+    '&gt;',
+    '&ouml;',
+    '&aring;',
+    '&auml;',
+    '&ldquo;',
+    '&rsquo;'
+    ]
     # Join substrings to create a regex pattern and replace them with an empty string
-    pattern = '|'.join(map(re.escape, substrings_to_remove))
+    pattern = '|'.join(map(re.escape, unwanted_substrings))
     return re.sub(pattern, '', text)
 
 
 def question_answer_mixer(question):
-    # Sanitize the question and answers
-    print(question[3])
-    question[3] = clean_text(question[3], unwanted_substrings)
-    question[4] = clean_text(question[4], unwanted_substrings)
-    question[5] = [clean_text(ans, unwanted_substrings) for ans in question[5]]
+    """
+    Cleans the question and answers, then returns the cleaned question and shuffled answers.
+    """
+    # Clean the question and answers
+    cleaned_question = clean_text(question[3])
+    cleaned_correct_answer = clean_text(question[4])
+    cleaned_incorrect_answers = [clean_text(ans) for ans in question[5]]
 
-    answers = []
-    # Add the correct answer
-    answers.append(question[4])
-    # Add all incorrect answers
-    answers.extend(question[5])  # Use extend to add items from question[5] directly
-    
+    # Combine correct and incorrect answers
+    answers = [cleaned_correct_answer] + cleaned_incorrect_answers
+
     # Shuffle the answers
     random.shuffle(answers)
-    
-    return answers
+
+    return cleaned_question, answers
 
 #response = requests.get(url)
 #data = response.json()
