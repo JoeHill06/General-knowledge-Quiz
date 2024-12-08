@@ -65,6 +65,9 @@ class Game:
         return questionSet
 
 
+import re
+
+# Define unwanted substrings
 unwanted_substrings = [
     '&#039;',
     '&quot;',
@@ -73,18 +76,21 @@ unwanted_substrings = [
     '&gt;',
     '&ouml;',
     '&aring;',
-    '&auml;',
-    '&quot;'
+    '&auml;'
 ]
 
 def clean_text(text, substrings_to_remove):
-    """Removes all substrings in substrings_to_remove from the text."""
-    for substring in substrings_to_remove:
-        text = text.replace(substring, '')
-    return text
+    """
+    Removes all substrings in substrings_to_remove from the text.
+    """
+    # Join substrings to create a regex pattern and replace them with an empty string
+    pattern = '|'.join(map(re.escape, substrings_to_remove))
+    return re.sub(pattern, '', text)
+
 
 def question_answer_mixer(question):
     # Sanitize the question and answers
+    print(question[3])
     question[3] = clean_text(question[3], unwanted_substrings)
     question[4] = clean_text(question[4], unwanted_substrings)
     question[5] = [clean_text(ans, unwanted_substrings) for ans in question[5]]

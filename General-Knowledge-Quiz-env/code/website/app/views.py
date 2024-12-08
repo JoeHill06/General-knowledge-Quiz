@@ -6,6 +6,9 @@ questionSet = []
 
 global current_game
 
+global current_team_index
+current_team_index = 0
+
 # Route for selecting team or player mode
 @app.route('/')
 def index():
@@ -68,7 +71,11 @@ def start_game():
 @app.route("/gamePage.html/<answer>")
 @app.route("/gamePage.html", methods=["GET", "POST"])
 def deliver_questions(answer=None):
-    global questionSet, current_game
+    global questionSet, current_game, current_team_index
+
+    # Initialize the current team index if it doesn't exist
+    if 'current_team_index' not in globals():
+        current_team_index = 0
 
     # Check if current_game is defined
     if 'current_game' not in globals() or current_game is None:
@@ -81,7 +88,8 @@ def deliver_questions(answer=None):
     if request.method == "GET":
         question = questionSet[0]
         postableQ = [question[3], questions.question_answer_mixer(question)]
-        return render_template("gamePage.html", game=current_game, question=postableQ)
+        team = current_game.teams[current_team_index]
+        return render_template("gamePage.html", game=current_game, question=postableQ, team=team)
 
     # Handle POST requests for answers
     if request.method == "POST":
@@ -95,16 +103,24 @@ def deliver_questions(answer=None):
         question = questionSet[0]
         postableQ = [question[3], questions.question_answer_mixer(question)]
 
+        # Get the current team
+        team = current_game.teams[current_team_index]
+
         # Validate the answer
         if answer == question[4]:
-            message = "Answer was correct!"
+            team[2] += 1
+            message = f"{team[1]}'s answer was correct! Your score is now {team[2]}"
+
             print("Answer is correct!")
         else:
-            message = "The answer was incorrect!"
-            print("Answer is incorrect!")
+            message = f"{team[1]}'s answer was incorrect! Your score is still {team[2]}"
+            print(f"Answer is incorrect!")
 
         # Move to the next question
         questionSet = questionSet[1:]  # Remove the current question
+
+        # Move to the next team (wrap around if needed)
+        current_team_index = (current_team_index + 1) % len(current_game.teams)
 
         # Check if there are more questions
         if not questionSet:
@@ -118,5 +134,6 @@ def deliver_questions(answer=None):
             "gamePage.html",
             game=current_game,
             message=message,
-            question=next_postableQ
+            question=next_postableQ,
+            team=current_game.teams[current_team_index]  # Pass the next team's turn
         )
