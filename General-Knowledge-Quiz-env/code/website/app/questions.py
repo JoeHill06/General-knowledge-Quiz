@@ -49,7 +49,7 @@ class Game:
     def create_url(self):
         """Create the OpenTDB API URL."""
         category_id = categories[self.category]  # Get category ID from the dictionary
-        return f"https://opentdb.com/api.php?amount=50&category={category_id}&type=multiple"
+        return f"https://opentdb.com/api.php?amount=20&category={category_id}&type=multiple"
 
     def get_questions(self):
         response = requests.get(self.url)
